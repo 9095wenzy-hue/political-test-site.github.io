@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>정치 성향 테스트</title>
-    <!-- Kakao SDK (공유 기능용) -->
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-    <script>
-        // Kakao 초기화 (네가 제공한 키 사용)
-        Kakao.init('560aea3a95b07e7e8b45aedcd978a10f');
-    </script>
+    <!-- Open Graph 태그 (썸네일 및 메타데이터) -->
+    <meta property="og:title" content="정치 성향 테스트">
+    <meta property="og:description" content="20개 질문으로 알아보는 나의 정치 성향!">
+    <meta property="og:image" content="https://i.imgur.com/FnV9G9U.jpeg"> <!-- 네 이미지 URL -->
+    <meta property="og:url" content="https://9095wenzy-hue.github.io/political-test-site.github.io/">
+    <meta property="og:type" content="website">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Malgun Gothic', Arial, sans-serif; background: linear-gradient(135deg, #f56565 0%, #4299e1 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; color: #333; }
@@ -49,7 +49,7 @@
 <body>
     <div class="container">
         <h1>🗳️ 정치 성향 테스트</h1>
-        <p>15개 질문을 하나씩 답해주세요. 솔직하게!</p>
+        <p>20개 질문을 하나씩 답해주세요. 솔직하게!</p>
         <div id="progress"></div>
        
         <!-- 질문 목록 -->
@@ -84,7 +84,7 @@
             </div>
         </div>
         <div class="question" id="q4">
-            <div class="question-text">4. 개인의 성공은 노력과 능력에 달려 있으며, 정부 지원은 최소화해야 한다.</div>
+            <div class="question-text">4. 개인의 성공은 정부 지원 없이 노력과 능력에 달려 있다.</div>
             <div class="options">
                 <div class="option" data-score="5">강하게 동의</div>
                 <div class="option" data-score="4">동의</div>
@@ -154,7 +154,7 @@
             </div>
         </div>
         <div class="question" id="q11">
-            <div class="question-text">11. 총기 소지를 엄격히 규제해야 한다.</div>
+            <div class="question-text">11. 데이터 프라이버시를 강화해야 한다.</div>
             <div class="options">
                 <div class="option" data-score="1">강하게 동의</div>
                 <div class="option" data-score="2">동의</div>
@@ -203,12 +203,62 @@
                 <div class="option" data-score="1">강하게 반대</div>
             </div>
         </div>
+        <div class="question" id="q16">
+            <div class="question-text">16. 정부의 복지 지출을 줄여 세금을 낮춰야 한다.</div>
+            <div class="options">
+                <div class="option" data-score="5">강하게 동의</div>
+                <div class="option" data-score="4">동의</div>
+                <div class="option" data-score="3">중립</div>
+                <div class="option" data-score="2">반대</div>
+                <div class="option" data-score="1">강하게 반대</div>
+            </div>
+        </div>
+        <div class="question" id="q17">
+            <div class="question-text">17. 외국 자본의 국내 진출을 제한해야 한다.</div>
+            <div class="options">
+                <div class="option" data-score="1">강하게 동의</div>
+                <div class="option" data-score="2">동의</div>
+                <div class="option" data-score="3">중립</div>
+                <div class="option" data-score="4">반대</div>
+                <div class="option" data-score="5">강하게 반대</div>
+            </div>
+        </div>
+        <div class="question" id="q18">
+            <div class="question-text">18. 노동조합의 권한을 강화해야 한다.</div>
+            <div class="options">
+                <div class="option" data-score="1">강하게 동의</div>
+                <div class="option" data-score="2">동의</div>
+                <div class="option" data-score="3">중립</div>
+                <div class="option" data-score="4">반대</div>
+                <div class="option" data-score="5">강하게 반대</div>
+            </div>
+        </div>
+        <div class="question" id="q19">
+            <div class="question-text">19. 전통 문화유산을 보존하기 위해 공공 예산을 늘려야 한다.</div>
+            <div class="options">
+                <div class="option" data-score="5">강하게 동의</div>
+                <div class="option" data-score="4">동의</div>
+                <div class="option" data-score="3">중립</div>
+                <div class="option" data-score="2">반대</div>
+                <div class="option" data-score="1">강하게 반대</div>
+            </div>
+        </div>
+        <div class="question" id="q20">
+            <div class="question-text">20. 기본소득제를 도입해야 한다.</div>
+            <div class="options">
+                <div class="option" data-score="1">강하게 동의</div>
+                <div class="option" data-score="2">동의</div>
+                <div class="option" data-score="3">중립</div>
+                <div class="option" data-score="4">반대</div>
+                <div class="option" data-score="5">강하게 반대</div>
+            </div>
+        </div>
         <button class="btn" id="nextBtn" disabled>다음</button>
         <div id="result"></div>
     </div>
     <script>
         let currentQuestion = 1;
-        const totalQuestions = 15;
+        const totalQuestions = 20; // 질문 수 15에서 20으로 수정
         let scores = new Array(totalQuestions).fill(0);
         function updateProgress() {
             document.getElementById('progress').innerText = `질문 ${currentQuestion} / ${totalQuestions}`;
@@ -256,7 +306,7 @@
             let bullets = '';
             let note = '';
             let alignmentName = '';
-            if (totalScore <= 45) {
+            if (totalScore <= 50) { // 중도 아래로 조정 (20~100 범위)
                 resultText = '좌파 성향';
                 resultColor = '#f56565';
                 alignmentName = '혁신적 평등주의자';
@@ -275,7 +325,7 @@
                     <p>- <strong>예시 정책:</strong> 무료 의료, 교육 평등화, 부유세 강화.</p>
                     <p>- <strong>성격 맥락:</strong> 공동체를 중시하고, 불평등 해소를 위해 적극적인 변화를 지지할 가능성이 높음.</p>
                 `;
-            } else if (totalScore <= 60) {
+            } else if (totalScore <= 70) { // 중도 범위 조정
                 resultText = '중도 성향';
                 resultColor = '#faf089';
                 alignmentName = '균형적 실용주의자';
@@ -315,11 +365,11 @@
                 `;
             }
             const resultDiv = document.getElementById('result');
-            const shareText = `내 정치 성향은 ${resultText} (${totalScore}/75점)! 당신도 테스트 해보세요!`;
+            const shareText = `내 정치 성향은 ${resultText} (${totalScore}/100점)! 당신도 테스트 해보세요!`; // 점수 범위 20~100
             const shareUrl = window.location.href;
             resultDiv.innerHTML = `
                 <h2>당신의 정치 성향: ${resultText}</h2>
-                <p>총 점수: ${totalScore} / 75</p>
+                <p>총 점수: ${totalScore} / 100</p>
                 <div class="card">
                     <div class="card-header">${resultText.toUpperCase().replace('성향', '')}</div>
                     <img src="${personImg}" alt="${examplePerson}" class="card-img">
@@ -333,7 +383,7 @@
                 ${detailedDescription}
                 <p>이 테스트는 참고용입니다. 실제 정치 성향은 더 복잡할 수 있어요!</p>
                 <div class="share-buttons">
-                    <button class="share-btn" onclick="shareKakao('${shareText}', '${shareUrl}')">공유하기</button>
+                    <button class="share-btn" onclick="shareNative('${shareText}', '${shareUrl}')">공유하기</button>
                 </div>
             `;
             resultDiv.style.background = resultColor;
@@ -341,34 +391,8 @@
             document.getElementById('nextBtn').style.display = 'none';
             document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
         }
-        // KakaoTalk 공유 함수
-        function shareKakao(title, url) {
-            if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
-                Kakao.Link.sendDefault({
-                    objectType: 'feed',
-                    content: {
-                        title: title,
-                        description: '정치 성향 테스트 결과 공유!',
-                        imageUrl: 'https://i.imgur.com/QaZ5m9j.jpg', // 네가 제공한 이미지 (임시 URL)
-                        link: {
-                            mobileWebUrl: url,
-                            webUrl: url
-                        }
-                    },
-                    buttons: [
-                        {
-                            title: '웹으로 보기',
-                            link: { mobileWebUrl: url, webUrl: url }
-                        }
-                    ]
-                });
-            } else {
-                alert('Kakao SDK가 로드되지 않았거나 키가 없습니다. 기본 공유를 사용하세요.');
-                shareGeneral(title, url); // 키 없으면 기본 공유
-            }
-        }
-        // 기본 공유 함수
-        function shareGeneral(title, url) {
+        // 아이폰 기본 공유 함수
+        function shareNative(title, url) {
             if (navigator.share) {
                 navigator.share({
                     title: title,
