@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>정치 성향 테스트</title>
-    <!-- Open Graph 태그 (썸네일 및 메타데이터) -->
+    <!-- Open Graph 태그 (썸네일 및 메타데이터, 강화됨) -->
     <meta property="og:title" content="정치 성향 테스트">
     <meta property="og:description" content="20개 질문으로 알아보는 나의 정치 성향!">
     <meta property="og:image" content="https://i.imgur.com/FnV9G9U.jpeg"> <!-- 네 이미지 URL -->
     <meta property="og:url" content="https://9095wenzy-hue.github.io/political-test-site.github.io/">
     <meta property="og:type" content="website">
+    <meta property="og:image:width" content="640"> <!-- 크기 명시 -->
+    <meta property="og:image:height" content="640"> <!-- 크기 명시 -->
     <!-- Kakao SDK (공유 기능용) -->
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
@@ -389,7 +391,8 @@
                 ${detailedDescription}
                 <p>이 테스트는 참고용입니다. 실제 정치 성향은 더 복잡할 수 있어요!</p>
                 <div class="share-buttons">
-                    <button class="share-btn" onclick="shareKakao('${shareText}', '${shareUrl}')">공유하기</button>
+                    <button class="share-btn" onclick="shareKakao('${shareText}', '${shareUrl}')">카카오톡 공유</button>
+                    <button class="share-btn" onclick="shareNative('${shareText}', '${shareUrl}')">일반 공유</button>
                 </div>
             `;
             resultDiv.style.background = resultColor;
@@ -419,12 +422,12 @@
                     ]
                 });
             } else {
-                alert('Kakao SDK 초기화 실패. 기본 공유로 전환.');
-                shareGeneral(title, url);
+                alert('Kakao SDK 초기화 실패. 일반 공유로 전환.');
+                shareNative(title, url);
             }
         }
-        // 기본 공유 함수
-        function shareGeneral(title, url) {
+        // 일반 공유 함수 (아이폰 기본 공유)
+        function shareNative(title, url) {
             if (navigator.share) {
                 navigator.share({
                     title: title,
