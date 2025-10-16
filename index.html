@@ -10,6 +10,12 @@
     <meta property="og:image" content="https://i.imgur.com/FnV9G9U.jpeg"> <!-- 네 이미지 URL -->
     <meta property="og:url" content="https://9095wenzy-hue.github.io/political-test-site.github.io/">
     <meta property="og:type" content="website">
+    <!-- Kakao SDK (공유 기능용) -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        // Kakao 초기화 (네가 제공한 키 사용)
+        Kakao.init('560aea3a95b07e7e8b45aedcd978a10f');
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Malgun Gothic', Arial, sans-serif; background: linear-gradient(135deg, #f56565 0%, #4299e1 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; color: #333; }
@@ -23,7 +29,7 @@
         .option { padding: 0.75rem; background: #edf2f7; border-radius: 8px; cursor: pointer; transition: background 0.3s; }
         .option:hover { background: #e2e8f0; }
         .option.selected { background: #4299e1; color: white; }
-        .btn { padding: 1rem; background: #4299e1; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: background 0.3s; width: 100%; }
+        .btn { padding: 1.5rem; background: #4299e1; color: white; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; transition: background 0.3s; width: 100%; } /* 버튼 크기 키움 */
         .btn:hover { background: #3182ce; }
         .btn:disabled { background: #a0aec0; cursor: not-allowed; }
         #result { display: none; margin-top: 2rem; padding: 1rem; border-radius: 8px; }
@@ -40,7 +46,7 @@
         .card-note { font-style: italic; color: #888; margin: 0.5rem 0; }
         .card-footer { font-weight: bold; color: #333; border: 1px solid #ddd; border-radius: 5px; padding: 0.5rem; display: inline-block; }
         .share-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
-        .share-btn { padding: 0.5rem 1rem; background: #4299e1; color: white; border-radius: 5px; text-decoration: none; cursor: pointer; }
+        .share-btn { padding: 1.5rem; background: #4299e1; color: white; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; transition: background 0.3s; width: 100%; } /* 공유 버튼 크기 키움 */
         .share-btn:hover { background: #3182ce; }
        
         @media (max-width: 480px) { .container { padding: 1.5rem; margin: 1rem; } }
@@ -258,7 +264,7 @@
     </div>
     <script>
         let currentQuestion = 1;
-        const totalQuestions = 20; // 질문 수 15에서 20으로 수정
+        const totalQuestions = 20; // 질문 수 20개
         let scores = new Array(totalQuestions).fill(0);
         function updateProgress() {
             document.getElementById('progress').innerText = `질문 ${currentQuestion} / ${totalQuestions}`;
@@ -365,7 +371,7 @@
                 `;
             }
             const resultDiv = document.getElementById('result');
-            const shareText = `내 정치 성향은 ${resultText} (${totalScore}/100점)! 당신도 테스트 해보세요!`; // 점수 범위 20~100
+            const shareText = `내 정치 성향은 ${resultText} (${totalScore}/100점)! 당신도 테스트 해보세요!`;
             const shareUrl = window.location.href;
             resultDiv.innerHTML = `
                 <h2>당신의 정치 성향: ${resultText}</h2>
@@ -383,7 +389,7 @@
                 ${detailedDescription}
                 <p>이 테스트는 참고용입니다. 실제 정치 성향은 더 복잡할 수 있어요!</p>
                 <div class="share-buttons">
-                    <button class="share-btn" onclick="shareNative('${shareText}', '${shareUrl}')">공유하기</button>
+                    <button class="share-btn" onclick="shareKakao('${shareText}', '${shareUrl}')">공유하기</button>
                 </div>
             `;
             resultDiv.style.background = resultColor;
@@ -391,8 +397,34 @@
             document.getElementById('nextBtn').style.display = 'none';
             document.querySelectorAll('.question').forEach(q => q.style.display = 'none');
         }
-        // 아이폰 기본 공유 함수
-        function shareNative(title, url) {
+        // KakaoTalk 공유 함수
+        function shareKakao(title, url) {
+            if (typeof Kakao !== 'undefined' && Kakao.isInitialized()) {
+                Kakao.Link.sendDefault({
+                    objectType: 'feed',
+                    content: {
+                        title: title,
+                        description: '정치 성향 테스트 결과 공유!',
+                        imageUrl: 'https://i.imgur.com/FnV9G9U.jpeg', // 네 이미지 URL
+                        link: {
+                            mobileWebUrl: url,
+                            webUrl: url
+                        }
+                    },
+                    buttons: [
+                        {
+                            title: '웹으로 보기',
+                            link: { mobileWebUrl: url, webUrl: url }
+                        }
+                    ]
+                });
+            } else {
+                alert('Kakao SDK 초기화 실패. 기본 공유로 전환.');
+                shareGeneral(title, url);
+            }
+        }
+        // 기본 공유 함수
+        function shareGeneral(title, url) {
             if (navigator.share) {
                 navigator.share({
                     title: title,
